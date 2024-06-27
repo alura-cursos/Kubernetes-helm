@@ -47,7 +47,7 @@ spec:
       - name: pagamentos
         image: leonardosartorello/java-pagamentos-k8s:v3
         ports:
-        - containerPort: 40000
+        - containerPort: 40000 
         env:
         - name: SERVER_HOST
           valueFrom:
