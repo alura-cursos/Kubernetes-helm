@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedidos
+  labels:
+    {{- include "alura-foods-app.labels" .| nindent 4}}
+    app: pedidos
+spec:
+  replicas: {{.Values.pedidos.replicaCount}}
+  selector:
+    matchLabels:
+      app: pedidos
+  template:
+    metadata:
+      labels:
+        app: pedidos
+    spec:
+      hostname: pedidos-ms
+      containers:
+      - name: pedidos
+        image: {{.Values.pedidos.image}}
+        ports:
+        - containerPort: {{.Values.pedidos.port}}
+        env:
+        - name: SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: {{.Values.configMap.name}}
+              key: SERVER_HOST
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: {{.Values.configMap.name}}
+              key: DB_HOST
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: {{.Values.configMap.name}}
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{.Values.secret.name}}
+              key: mysql-root-password

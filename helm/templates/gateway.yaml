@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  labels:
+    {{- include "alura-foods-app.labels" .| nindent 4}}
+    app: gateway
+spec:
+  replicas: {{.Values.gateway.replicaCount}}
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: {{.Values.gateway.image}}
+        ports:
+        - containerPort: {{.Values.gateway.port}}
+        env:
+        - name: SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: {{.Values.configMap.name}}
+              key: SERVER_HOST

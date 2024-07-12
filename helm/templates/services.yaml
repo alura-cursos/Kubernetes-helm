@@ -1,0 +1,16 @@
+{{- range $service := .Values.service}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{$service.name}}
+  labels:
+    app: {{$service.label}}
+spec:
+  ports:
+  - port: {{$service.port}}
+    name: {{$service.name}}
+  clusterIP: None
+  selector:
+    app: {{$service.label}}
+---
+{{- end}}
