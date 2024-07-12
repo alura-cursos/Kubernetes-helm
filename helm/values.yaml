@@ -3,7 +3,6 @@ configMap:
   data:
     SERVER_HOST: "http://server-0.server:8081/eureka,http://server-1.server:8081/eureka"
     DB_HOST: "mysql"
-    DB_USER: "root"
 
 gateway:
   replicaCount: 2
